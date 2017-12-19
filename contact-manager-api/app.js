@@ -41,12 +41,11 @@ app.use('/api/users', function(req, res, next){
       console.log(rows);
       console.log(fields);
       res.send(rows);
-      mySqlConnection.end();
     }else{
       console.log(error);
       res.send(error);
     }
-    
+    mySqlConnection.end();
   });
 });
 
