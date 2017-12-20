@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 
 var contacts = require('./routes/contacts');
+var videos = require('./routes/videos');
 
 var app = express();
 
@@ -17,9 +18,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/contacts', contacts);
+app.use('/api/videos', videos);
 
 
 //for MYSQL connection config
+/*
 var mySqlConnection = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -32,9 +35,10 @@ mySqlConnection.connect(function(error){
   }else{
     console.log(error);
   }
-});
+}); */
 
 //for MYSQL -- http://localhost:3000/api/users - GET request
+/*
 app.use('/api/users', function(req, res, next){
   mySqlConnection.query("SELECT * from users", function(error, rows, fields){
     if(!error){
@@ -47,7 +51,7 @@ app.use('/api/users', function(req, res, next){
     }
     mySqlConnection.end();
   });
-});
+}); */
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

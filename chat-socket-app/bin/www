@@ -5,52 +5,40 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('contact-manager-api:server');
+var debug = require('debug')('chat-socket-app:server');
 var http = require('http');
-var cluster = require('cluster'); //for Cluster
-var numCPUs = require('os').cpus().length;
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '4000');
 app.set('port', port);
 
-/*
-if (cluster.isMaster) {
-  // Fork workers.
-  for (var i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
+/**
+ * Create HTTP server.
+ */
 
-  // If a worker dies, log it to the console and start another worker.
-  cluster.on('exit', function(worker, code, signal) {
-    console.log('Worker ' + worker.process.pid + ' died.');
-    cluster.fork();
-  });
+var server = http.createServer(app);
 
-  // Log when a worker starts listening
-  cluster.on('listening', function(worker, address) {
-    console.log('Worker started with PID ' + worker.process.pid + '.');
-  });
+/**
+ * Listen on provided port, on all network interfaces.
+ */
 
-} else { */
-  /**
-   * Create HTTP server.
-   */
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
-  var server = http.createServer(app);
+/* Socket.Io setup and configurations */
+var socket = require('socket.io');
+var io = socket(server);
 
-  /**
-   * Listen on provided port, on all network interfaces.
-   */
+io.on('connection', function(){
+  console.log("Socket Connection established");
+});
 
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
-//}
 
+/* Socket.Io config ends */
 
 /**
  * Normalize a port into a number, string, or false.
