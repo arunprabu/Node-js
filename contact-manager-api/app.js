@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 
 var contacts = require('./routes/contacts');
-var videos = require('./routes/videos');
 
 var app = express();
 
@@ -18,8 +17,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/contacts', contacts);
-app.use('/api/videos', videos);
-
 
 //for MYSQL connection config
 /*
